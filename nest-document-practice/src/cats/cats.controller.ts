@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   // Redirect,
   Req,
@@ -15,6 +16,7 @@ import {
 import { Request } from 'express';
 import { ForbiddenException } from 'src/exception/forbidden.exception';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cat.interface';
@@ -27,7 +29,7 @@ export class CatsController {
   @Post()
   @Header('Cache-Control', 'none')
   @HttpCode(204)
-  create(@Body() createCatDto: CreateCatDto) {
+  create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
 
@@ -42,10 +44,19 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param() params): string {
-    console.log(params.id);
-    return `This action returns a #${params.id} cat`;
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    // @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number, // 引数に値を入れることで、nullやundefindに対応出来る。
+  ) {
+    return this.catsService.findOne(id);
   }
+
+  // @Get(':id')
+  // findOne(
+  //   @Param() params): string {
+  //   console.log(params.id);
+  //   return `This action returns a #${params.id} cat`;
+  // }
 }
 
 // サブドメインのルーティング
