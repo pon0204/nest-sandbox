@@ -4,17 +4,23 @@ import {
   Get,
   Header,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   // Redirect,
   Req,
+  UseFilters,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { ForbiddenException } from 'src/exception/forbidden.exception';
+import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
+@UseFilters(HttpExceptionFilter) // カスタムフィルターを追加
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
@@ -29,6 +35,8 @@ export class CatsController {
   // @Get('ab*cd') // ワイルドカード
   // @Redirect('https://nestjs.com', 301) // リダイレクト
   async findAll(@Req() request: Request): Promise<Cat[]> {
+    // throw new ForbiddenException();
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     // console.log(request);
     return this.catsService.findAll();
   }
