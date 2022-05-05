@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Header,
@@ -9,22 +10,27 @@ import {
   Req,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { CatsService } from './cats.service';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
 export class CatsController {
+  constructor(private catsService: CatsService) {}
+
   @Post()
   @Header('Cache-Control', 'none')
   @HttpCode(204)
-  create(): string {
-    return 'This action adds a new cat';
+  create(@Body() createCatDto: CreateCatDto) {
+    this.catsService.create(createCatDto);
   }
 
   @Get()
   // @Get('ab*cd') // ワイルドカード
   // @Redirect('https://nestjs.com', 301) // リダイレクト
-  findAll(@Req() request: Request): string {
+  async findAll(@Req() request: Request): Promise<Cat[]> {
     console.log(request);
-    return 'This action returns all cats';
+    return this.catsService.findAll();
   }
 
   @Get(':id')
