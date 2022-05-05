@@ -29,7 +29,7 @@ export class CatsController {
   // @Get('ab*cd') // ワイルドカード
   // @Redirect('https://nestjs.com', 301) // リダイレクト
   async findAll(@Req() request: Request): Promise<Cat[]> {
-    console.log(request);
+    // console.log(request);
     return this.catsService.findAll();
   }
 
