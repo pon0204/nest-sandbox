@@ -11,17 +11,22 @@ import {
   Post,
   // Redirect,
   Req,
+  SetMetadata,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { Roles } from 'src/decorator/roles.decorator';
 import { ForbiddenException } from 'src/exception/forbidden.exception';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { RoleGuard } from 'src/guard/roles.guard';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
+@UseGuards(RoleGuard)
 @UseFilters(HttpExceptionFilter) // カスタムフィルターを追加
 export class CatsController {
   constructor(private catsService: CatsService) {}
@@ -29,6 +34,7 @@ export class CatsController {
   @Post()
   @Header('Cache-Control', 'none')
   @HttpCode(204)
+  @Roles('admin')
   create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
