@@ -14,12 +14,16 @@ import {
   SetMetadata,
   UseFilters,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Roles } from 'src/decorator/roles.decorator';
 import { ForbiddenException } from 'src/exception/forbidden.exception';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 import { RoleGuard } from 'src/guard/roles.guard';
+import { CacheInterceptor } from 'src/interceptor/cache.interceptor';
+import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
+import { TransformInterceptor } from 'src/interceptor/transform.interceptor';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -28,6 +32,9 @@ import { Cat } from './interfaces/cat.interface';
 @Controller('cats')
 @UseGuards(RoleGuard)
 @UseFilters(HttpExceptionFilter) // カスタムフィルターを追加
+@UseInterceptors(LoggingInterceptor)
+@UseInterceptors(TransformInterceptor)
+// @UseInterceptors(CacheInterceptor)
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
