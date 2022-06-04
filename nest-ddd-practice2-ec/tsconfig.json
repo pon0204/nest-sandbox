@@ -12,6 +12,12 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@/domain": ["./src/domain"],
+      "@/infrastructure": ["./src/domain"],
+      "@/application": ["./src/domain"],
+      "@/presentation": ["./src/domain"]
+    }
   }
 }
