@@ -1,14 +1,16 @@
 import { Client, Message } from '@line/bot-sdk';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class LineService {
   client: Client;
-  constructor() {
-    // TODO: configServiceから呼び出す。現状だと初期化できずにエラーが起きる。(直接値を指定すれば動く。)
+  constructor(private configService: ConfigService) {
     this.client = new Client({
-      channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN || '',
-      channelSecret: process.env.CHANNEL_SECRET_TOKEN || '',
+      channelAccessToken:
+        this.configService.get<string>('LINE_CHANNEL_ACCESS_TOKEN') || '',
+      channelSecret:
+        this.configService.get<string>('LINE_CHANNEL_SECRET_TOKEN') || '',
     });
   }
 
