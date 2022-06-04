@@ -1,0 +1,16 @@
+version: '3'
+
+volumes:
+  db-data:
+
+services:
+  db:
+    image: postgres:14
+    container_name: nest-ddd-practice2-ec
+    volumes:
+      - db-data:/var/lib/postgresql/nest-ddd-practice2-ec/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
