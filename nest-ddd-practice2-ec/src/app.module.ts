@@ -12,6 +12,7 @@ import { AppService } from './app.service';
       username: 'postgres',
       password: 'postgres',
       database: 'test',
+      autoLoadEntities: true,
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
