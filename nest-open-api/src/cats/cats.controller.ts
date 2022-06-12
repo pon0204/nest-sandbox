@@ -8,7 +8,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserRole } from 'src/common/userRole';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -16,6 +16,7 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 import { CatRes } from './entities/cat.entity';
 
 @ApiTags('cats')
+@ApiBearerAuth('access-token')
 @Controller('cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
