@@ -1,4 +1,13 @@
-import { IsString, IsNumber, Min, Max, IsFullWidth } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNumber,
+  Min,
+  Max,
+  IsFullWidth,
+  IsEnum,
+} from 'class-validator';
+import { CatBreedEnum } from '../constans/breedEnum';
 
 export class CreateCatDto {
   /**
@@ -12,6 +21,6 @@ export class CreateCatDto {
   @Max(20)
   age: number;
 
-  @IsString()
-  breed: string;
+  @IsEnum(CatBreedEnum)
+  breed: CatBreedEnum;
 }
