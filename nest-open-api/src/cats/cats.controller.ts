@@ -13,7 +13,7 @@ import { UserRole } from 'src/common/userRole';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
-import { Cat } from './entities/cat.entity';
+import { CatRes } from './entities/cat.entity';
 
 @ApiTags('cats')
 @Controller('cats')
@@ -32,7 +32,7 @@ export class CatsController {
 
   @Get()
   @ApiQuery({ name: 'role', enum: UserRole })
-  findAll(@Query('role') role: UserRole = UserRole.Admin): Cat[] {
+  findAll(@Query('role') role: UserRole = UserRole.Admin): CatRes[] | null {
     return this.catsService.findAll();
   }
 
