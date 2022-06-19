@@ -12,6 +12,13 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
+  async create(dto: CreateUserDto): Promise<void> {
+    const user = new User();
+    user.firstName = dto.firstName;
+    user.lastName = dto.lastName;
+    await this.usersRepository.save(user);
+  }
+
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
