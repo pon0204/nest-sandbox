@@ -22,10 +22,13 @@ describe('CatsController', () => {
 
   describe('findAll', () => {
     it('should return an array of cats', async () => {
-      const result = 'This action returns all cats';
+      const cats = catsController.findAll();
+      const result = [
+        { id: 1, name: 'たま' },
+        { id: 2, name: 'にゃー' },
+      ];
       jest.spyOn(catsService, 'findAll').mockImplementation(() => result);
-      console.log(result);
-      expect(await catsController.findAll()).toBe(result);
+      expect(cats).toEqual(result);
     });
   });
 });
