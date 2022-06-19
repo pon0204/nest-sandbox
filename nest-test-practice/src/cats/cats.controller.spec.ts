@@ -3,7 +3,8 @@ import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 
 describe('CatsController', () => {
-  let controller: CatsController;
+  let catsController: CatsController;
+  let catsService: CatsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -11,10 +12,20 @@ describe('CatsController', () => {
       providers: [CatsService],
     }).compile();
 
-    controller = module.get<CatsController>(CatsController);
+    catsService = module.get<CatsService>(CatsService);
+    catsController = module.get<CatsController>(CatsController);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(catsController).toBeDefined();
+  });
+
+  describe('findAll', () => {
+    it('should return an array of cats', async () => {
+      const result = 'This action returns all cats';
+      jest.spyOn(catsService, 'findAll').mockImplementation(() => result);
+      console.log(result);
+      expect(await catsController.findAll()).toBe(result);
+    });
   });
 });
