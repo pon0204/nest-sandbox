@@ -4,7 +4,7 @@ import { FindAllUsersUseCase } from './application/use-case/find-all-users.useca
 import { PushMessageUseCase } from './application/use-case/push-message.usecase';
 import { RepositoryModule } from './infrastructure/repository/repository.module';
 import { UserController } from './presentation/controller/user/user.controller';
-import { LineService } from './services/line/line.service';
+import { LineService } from './adapters/line/line.service';
 import { validate } from './config/environments/env-validator';
 
 @Module({

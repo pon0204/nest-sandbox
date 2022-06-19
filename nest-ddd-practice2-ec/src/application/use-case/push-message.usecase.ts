@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IUserRepository } from 'src/domain/interface/interface.user.repository';
-import { LineService } from 'src/services/line/line.service';
+import { LineService } from 'src/adapters/line/line.service';
 
 @Injectable()
 export class PushMessageUseCase {
