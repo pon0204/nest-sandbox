@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cat } from './interfaces/cat.interface';
 
+// @Injectable({ scope: Scope.REQUEST }) // リクエストのたびにインスタンスを作製する。
 @Injectable()
 export class CatsService {
   private readonly cats: Cat[] = [];
