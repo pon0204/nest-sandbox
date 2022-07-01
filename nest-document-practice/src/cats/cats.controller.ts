@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Header,
@@ -16,6 +17,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Transform } from 'class-transformer';
 import { Request } from 'express';
 import { Roles } from 'src/decorator/roles.decorator';
 import { ForbiddenException } from 'src/exception/forbidden.exception';
@@ -28,12 +30,13 @@ import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cat.interface';
+import { CatRes } from './dto/cat-res.dto';
 
 @Controller('cats')
 @UseGuards(RoleGuard)
-@UseFilters(HttpExceptionFilter) // カスタムフィルターを追加
+// @UseFilters(HttpExceptionFilter) // カスタムフィルターを追加
 @UseInterceptors(LoggingInterceptor)
-@UseInterceptors(TransformInterceptor)
+// @UseInterceptors(TransformInterceptor)
 // @UseInterceptors(CacheInterceptor)
 export class CatsController {
   constructor(private catsService: CatsService) {}
@@ -42,14 +45,18 @@ export class CatsController {
   @Header('Cache-Control', 'none')
   @HttpCode(204)
   @Roles('admin')
-  create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
+  create(
+    @Body(new ValidationPipe())
+    createCatDto: CreateCatDto,
+  ) {
     this.catsService.create(createCatDto);
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   // @Get('ab*cd') // ワイルドカード
   // @Redirect('https://nestjs.com', 301) // リダイレクト
-  async findAll(@Req() request: Request): Promise<Cat[]> {
+  async findAll(@Req() request: Request): Promise<CatRes> {
     // throw new ForbiddenException();
     // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     // console.log(request);

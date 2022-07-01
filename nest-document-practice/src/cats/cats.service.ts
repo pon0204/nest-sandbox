@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CatRes } from './dto/cat-res.dto';
 import { Cat } from './interfaces/cat.interface';
 
 // @Injectable({ scope: Scope.REQUEST }) // リクエストのたびにインスタンスを作製する。
@@ -16,8 +17,9 @@ export class CatsService {
     this.cats.push(cat);
   }
 
-  findAll(): Cat[] {
-    return this.cats;
+  findAll(): CatRes {
+    return new CatRes('たま', 19, 'nyanko');
+    // return this.cats;
   }
 
   findOne(id: number): Cat {
