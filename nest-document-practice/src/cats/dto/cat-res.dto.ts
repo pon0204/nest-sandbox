@@ -9,7 +9,7 @@ export class CatRes {
   age: number;
   breed: string;
 
-  @Expose()
+  @Expose() // レスポンスにプロバティとして追加できる。
   get profile(): string {
     return `名前: ${this.name} 年齢:${this.age}歳 種類:${this.breed}`;
   }
