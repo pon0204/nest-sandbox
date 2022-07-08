@@ -17,7 +17,6 @@ export class CatsController {
 
   @Post()
   create(
-    @Transform(({ value }) => value.name)
     @Body()
     createCatDto: CreateCatDto,
   ) {
