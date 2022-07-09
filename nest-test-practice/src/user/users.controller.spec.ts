@@ -8,11 +8,14 @@ describe('UsersController', () => {
   const mockUserService = {
     create: jest.fn((dto) => {
       return {
-        id: Date.now(),
-        isActive: true,
+        id: 1,
         ...dto,
       };
     }),
+    update: jest.fn((id: number, dto) => ({
+      id: 1,
+      ...dto,
+    })),
   };
 
   beforeEach(async () => {
@@ -33,12 +36,23 @@ describe('UsersController', () => {
 
   it('should be create a user', () => {
     expect(
-      controller.create({ firstName: 'つよし', lastName: 'いとう' }),
+      controller.create({
+        firstName: 'つよし',
+        lastName: 'いとう',
+        isActive: true,
+      }),
     ).toEqual({
       id: expect.any(Number),
       firstName: 'つよし',
       lastName: 'いとう',
       isActive: true,
+    });
+  });
+  it('should be update user ', () => {
+    const dto = { firstName: 'つよし', lastName: 'いとう', isActive: true };
+    expect(controller.update(1, dto)).toEqual({
+      id: 1,
+      ...dto,
     });
   });
 });
